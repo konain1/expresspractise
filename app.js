@@ -8,6 +8,17 @@ const morgan = require('morgan')
 
 app.use(express.static('public'))
 
+// app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({ extended: false }))
+
+const books = [
+    {
+        id:1,
+        title:'book 1',
+        author:'author 1'
+    }
+]
+
 
 // const logger = (req,res,next)=>{
 //     console.log(`${new Date()} , ${req.url} , ${req.method}`)
@@ -15,6 +26,24 @@ app.use(express.static('public'))
 // }
 
 // app.use('/contact',logger)
+
+app.get('/books' ,(req,res)=>{
+
+    res.json(books)
+})
+
+app.post('/books',(req,res)=>{
+    const newBook = {
+        id: books.length +1,
+        title:req.body.title,
+        author:req.body.author
+    }
+
+    books.push(newBook)
+
+    res.status(201).json(books)
+
+})
 
 app.use(morgan('dev'))
 
